@@ -1,5 +1,5 @@
 window.onload = () => {
-    let endpoint = 'https://pokeapi.co/api/v2/pokemon/';
+    let endpoint = 'https://pokeapi.co/api/v2/pokemon?limit=21';
     fetchPokemons();
 
     // Adding the click event to the next 20 pokemons
@@ -171,21 +171,37 @@ window.onload = () => {
                             event.preventDefault();
                             $('#equalAbility').modal('show');
 
+                            let endpointAllAbilities = 'https://pokeapi.co/api/v2/ability?limit=327';
+                            fetch(endpointAllAbilities)
+                            .then(function(response) {
+                                return response.json();
+                            })
+                            .then(function(response) {
+                                console.log(response);
+                                response.results.forEach(function(ability) {
+                                    // console.log(ability.name)
 
-                            equalAbility(data)
-                            function equalAbility(data) {
-                                console.log(data)
-                                data.abilities.forEach(function(ability) {
-                                    let arrAbilities = ability.ability.name;
+                                    // function equalAbility(ability) {
+                                    //     let arrAbilities = ability.name;
 
-                                    for (let i = 0; i < arrAbilities.length; i++) {
-                                        return console.log(arrAbilities);
-                                        
-                                    }
+                                    //     let arrPokemonAbilities = ability.ability.name;
 
-                               
+                                    //     for (let i = 0; i < arrAbilities.length; i++) {
+                                    //         console.log(arrAbilities);
+                                    //         for (let j = 0; j < arrPokemonAbilities.length; j++) {
+                                    //             return console.log(arrPokemonAbilities);
+                                                
+                                    //         }
+                                    //     }
+
+                                    
+                                    // }
+                                    // equalAbility(data)
+
+                                    console.log(pokemon.name)
+
                                 })
-                            }
+                            })
 
                             // function countRepeatedLetters(text) {
                             //     let arrayLetters = addLettersToArray(text);

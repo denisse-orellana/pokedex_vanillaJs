@@ -203,25 +203,6 @@ window.onload = () => {
                                 })
                             })
 
-                            // function countRepeatedLetters(text) {
-                            //     let arrayLetters = addLettersToArray(text);
-                            //     let findMatchedLetters = [];
-                            //     let repeatedLetters = [];
-                            //     for (let i = 0; i < arrayLetters.length; i++) {
-                            //         let letter = 0;
-                            //         for (let j = 0; j < arrayLetters.length; j++) {
-                            //             if (arrayLetters[i] === arrayLetters[j] && !findMatchedLetters.includes(arrayLetters[i])) {
-                            //                 letter++; // letter++ or letter = letter + 1
-                            //             }
-                            //         }
-                            //         findMatchedLetters.push(arrayLetters[i]);
-                            //         if (letter > 1) {
-                            //             repeatedLetters.push(`${arrayLetters[i]}: ${letter}`);
-                            //         }
-                            //     }
-                            //     return repeatedLetters;
-                            // }
-
 
 
 

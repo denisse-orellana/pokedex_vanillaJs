@@ -50,14 +50,13 @@ window.onload = () => {
                     </div>
                     <div class="modal-body">
                         <h5 id="pokemonName"></h5>
-                        <p id="pokemonType"></p>
+                        <p id="pokemonType"></p><button id="damageRelations" href="#" class="btn btn-info">Ver relaciones de daño</button>
                         <p id="pokemonGeneration"></p>
-                        <p id="pokemonAbilities"></p>
+                        <p id="pokemonAbilities"></p><button id="equalAbilities" href="#" class="btn btn-info">Otros pokémon que tienen esta habilidad</button>
                         <p id="pokemonFirstFiveMoves"></p>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-primary">Save changes</button>
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
                     </div>
                     </div>
                 </div>
@@ -89,6 +88,130 @@ window.onload = () => {
                         document.getElementById('pokemonType').innerHTML = pokemonType(data);
                         document.getElementById('pokemonAbilities').innerHTML = pokemonAbilities(data);
                         document.getElementById('pokemonFirstFiveMoves').innerHTML = pokemonFirstFiveMoves(data);
+
+                        // Damage relations modal
+                        let modalDamageRelation = 
+                        `
+                        <div id="damageRelation" class="modal" tabindex="-1" role="dialog">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                            <div class="modal-header">
+                                <h3 id="nameTitle" class="modal-title">Modal title</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <h5>Double damage from:</h5>
+                                <p id="double_damage_from"></p>
+                                <h5>Double damage to:</h5>
+                                <p id="double_damage_to"></p>
+                                <h5>Half damage from:</h5>
+                                <p id="half_damage_from"></p>
+                                <h5>Half damage to:</h5>
+                                <p id="half_damage_to"></p>
+                                <h5>No damage from:</h5>
+                                <p id="no_damage_from"></p>
+                                <h5>No damage to:</h5>
+                                <p id="no_damage_to"></p>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                            </div>
+                            </div>
+                        </div>
+                        </div>
+                        `
+                        document.getElementById('pokemons').insertAdjacentHTML('beforeend', modalDamageRelation);
+
+                        // Adding the damage relations at the click event
+                        document.getElementById('damageRelations').addEventListener('click', (event) => {
+                            event.preventDefault();
+                            $('#damageRelation').modal('show');
+                            document.getElementById('nameTitle').innerHTML = `${pokemon.name}'s` + ' Damage Relation';
+
+                            fetch(urlDamageRelation(data))
+                            .then(function(response) {
+                                return response.json();
+                            })
+                            .then(function(response) {
+                                console.log(response.damage_relations);
+                                damageRelation(response);
+                            })
+                        })
+
+                        // Adding the pookemons with the same abilities
+
+                        // Equal ability modal
+                        let modalEqualAbility = 
+                        `
+                        <div id="equalAbility" class="modal" tabindex="-1" role="dialog">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                            <div class="modal-header">
+                                <h3 id="nameTitle" class="modal-title">What pokemon has the same ability?</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <h5>Has this hability:</h5>
+                                <p id="double_damage_from"></p>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                            </div>
+                            </div>
+                        </div>
+                        </div>
+                        `
+                        document.getElementById('pokemons').insertAdjacentHTML('beforeend', modalEqualAbility);
+
+                        document.getElementById('equalAbilities').addEventListener('click', (event) => {
+                            event.preventDefault();
+                            $('#equalAbility').modal('show');
+
+
+                            equalAbility(data)
+                            function equalAbility(data) {
+                                console.log(data)
+                                data.abilities.forEach(function(ability) {
+                                    let arrAbilities = ability.ability.name;
+
+                                    for (let i = 0; i < arrAbilities.length; i++) {
+                                        return console.log(arrAbilities);
+                                        
+                                    }
+
+                               
+                                })
+                            }
+
+                            // function countRepeatedLetters(text) {
+                            //     let arrayLetters = addLettersToArray(text);
+                            //     let findMatchedLetters = [];
+                            //     let repeatedLetters = [];
+                            //     for (let i = 0; i < arrayLetters.length; i++) {
+                            //         let letter = 0;
+                            //         for (let j = 0; j < arrayLetters.length; j++) {
+                            //             if (arrayLetters[i] === arrayLetters[j] && !findMatchedLetters.includes(arrayLetters[i])) {
+                            //                 letter++; // letter++ or letter = letter + 1
+                            //             }
+                            //         }
+                            //         findMatchedLetters.push(arrayLetters[i]);
+                            //         if (letter > 1) {
+                            //             repeatedLetters.push(`${arrayLetters[i]}: ${letter}`);
+                            //         }
+                            //     }
+                            //     return repeatedLetters;
+                            // }
+
+
+
+
+
+                        })
+                          
                     })
                 })
             })
@@ -120,6 +243,27 @@ window.onload = () => {
             }
         })
         return moves;
+    }
+
+    function urlDamageRelation(data) {
+        let urlDamageRel;
+        data.types.forEach(function(type) {
+            urlDamageRel = type.type.url;
+        })
+        console.log(urlDamageRel);
+        return urlDamageRel;
+    }
+
+    function damageRelation(response) {
+        for (let key in response.damage_relations) {
+            let relation = '';
+            let damageRel = response.damage_relations[key];
+            damageRel.forEach(function(damage) {
+                console.log(`${key}: ${damage.name}`)
+                relation += `${damage.name}` + ', ';
+            })
+        document.querySelector(`#${key}`).innerHTML = relation;
+        }
     }
 }
 

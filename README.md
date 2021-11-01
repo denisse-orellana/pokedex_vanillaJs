@@ -8,4 +8,4 @@ This projects presents a pokedex fetching the information from the PokeApi. It i
 
 ## Project link
 
-The final project can be seen here: [Pokedex](https://denisseee.github.io/pokedex_vanillaJs/)
+The final project can be seen here: [Pokedex Vanilla JS](https://denisseee.github.io/pokedex_vanillaJs/)
